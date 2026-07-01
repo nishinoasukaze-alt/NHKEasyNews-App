@@ -1,0 +1,6 @@
+当前项目为nhk-web-easy-tool项目
+
+name:nhk-web-easy-tool
+
+description:用于每天定时从目标网址（https://news.web.nhk/news/easy/）的主页上爬取展示出的四条新闻，包含新闻图片、标题、正文内容、音频等主要文件，按照固定格式保存至本地目录下，并在桌面通过windows组件制作出个人可定制的新闻快速展示页面
+

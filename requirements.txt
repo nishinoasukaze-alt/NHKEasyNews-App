@@ -1,0 +1,24 @@
+# 爬取与解析
+requests==2.32.3
+beautifulsoup4==4.12.3
+lxml==6.1.1            # 6.1.1 起提供 Python 3.14 预编译 wheel
+
+# 浏览器驱动（站点改版为 SPA + 海外访问门禁，需真实浏览器过同意弹窗）
+# 安装后还需下载浏览器内核：python -m playwright install chromium
+playwright==1.60.0
+
+# 音频为 AES-128 加密 HLS 流，解密分片需要 AES 实现
+pycryptodome==3.23.0
+
+# 进程内定时调度（替代 Windows 任务计划）
+apscheduler==3.11.3
+
+# 桌面挂件（自带 QtMultimedia 播放音频）
+# 注意：Python 3.14 需要 PySide6 6.10.1+（更早版本封顶 <3.14）
+PySide6==6.11.1
+
+# 打包（开发用）：onedir exe，含 Chromium 内核
+pyinstaller==6.21.0
+
+# 测试
+pytest==8.3.2

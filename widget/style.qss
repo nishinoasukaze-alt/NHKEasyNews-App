@@ -1,0 +1,255 @@
+/* NHK Easy News 挂件样式 —— 可自由定制颜色/字体/圆角/透明度 */
+
+QWidget {
+    background-color: #1e1f29;
+    color: #e6e6e6;
+    font-family: "Yu Gothic UI", "Meiryo", "Microsoft YaHei", sans-serif;
+}
+
+/* 标题栏 */
+#titleBar {
+    background-color: #2b2d3a;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#barTitle {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff5c7a;          /* NHK 风格强调色，可改 */
+}
+
+/* 刷新状态反馈 */
+#statusLabel {
+    color: #7ddc8e;
+    font-size: 11px;
+    padding-left: 8px;
+}
+
+/* 设置对话框 */
+#settingsDialog {
+    background-color: #1e1f29;
+    color: #e6e6e6;
+}
+#settingsDialog QLabel { color: #e6e6e6; }
+#settingsHint { color: #9aa0b5; font-size: 11px; }
+#settingsDialog QTimeEdit {
+    background-color: #262838;
+    color: #ffffff;
+    border: 1px solid #3a3d4e;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 15px;
+    min-width: 78px;
+    min-height: 26px;
+}
+/* 时间输入的上下按钮：做大、配清晰三角箭头，避免误点与困住焦点 */
+#settingsDialog QTimeEdit::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 22px;
+    border-left: 1px solid #3a3d4e;
+    border-top-right-radius: 4px;
+    background-color: #2f3144;
+}
+#settingsDialog QTimeEdit::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 22px;
+    border-left: 1px solid #3a3d4e;
+    border-bottom-right-radius: 4px;
+    background-color: #2f3144;
+}
+#settingsDialog QTimeEdit::up-button:hover,
+#settingsDialog QTimeEdit::down-button:hover {
+    background-color: #ff5c7a;
+}
+#settingsDialog QTimeEdit::up-arrow {
+    image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M1 7 L5 3 L9 7' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    width: 10px;
+    height: 10px;
+}
+#settingsDialog QTimeEdit::down-arrow {
+    image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M1 3 L5 7 L9 3' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    width: 10px;
+    height: 10px;
+}
+
+/* 复选框：未选为空心方框，选中为粉底白「✓」，状态一目了然 */
+#settingsDialog QCheckBox { color: #e6e6e6; spacing: 8px; }
+#settingsDialog QCheckBox::indicator,
+#settingsDialog QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #5a5e74;
+    background-color: #262838;
+}
+#settingsDialog QCheckBox::indicator { border-radius: 4px; }
+#settingsDialog QRadioButton::indicator { border-radius: 9px; }
+#settingsDialog QCheckBox::indicator:hover,
+#settingsDialog QRadioButton::indicator:hover {
+    border-color: #ff5c7a;
+}
+#settingsDialog QCheckBox::indicator:checked {
+    background-color: #ff5c7a;
+    border-color: #ff5c7a;
+    /* 白色对勾（data URI SVG，避免依赖外部图片） */
+    image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'><path d='M4 9.5 L7.5 13 L14 5' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+}
+#settingsDialog QRadioButton::indicator:checked {
+    background-color: #ff5c7a;
+    border-color: #ff5c7a;
+    /* 白色实心点 */
+    image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'><circle cx='9' cy='9' r='4' fill='white'/></svg>");
+}
+
+#iconBtn {
+    background: transparent;
+    border: none;
+    color: #aaaaaa;
+    font-size: 14px;
+    padding: 2px 6px;
+}
+#iconBtn:hover {
+    color: #ffffff;
+}
+
+/* 内容区 */
+#content, #scroll {
+    background-color: #1e1f29;
+    border: none;
+}
+
+#dateLabel {
+    color: #9aa0b5;
+    font-size: 12px;
+    padding: 2px 4px;
+}
+
+/* 无更新提示条 */
+#updateNotice {
+    background-color: #3a2f1a;
+    color: #ffcc66;
+    font-size: 12px;
+    border: 1px solid #5a4a26;
+    border-radius: 6px;
+    padding: 6px 10px;
+}
+
+/* NEW 角标 */
+#newBadge {
+    background-color: #ff5c7a;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+/* 新闻卡片 */
+#newsCard {
+    background-color: #262838;
+    border-radius: 10px;
+}
+#newsCard:hover {
+    background-color: #2f3144;
+}
+
+#thumb {
+    border-radius: 6px;
+    background-color: #11121a;
+}
+
+#title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+#body {
+    font-size: 12px;
+    color: #c2c5d6;
+}
+
+/* 卡片底部“点击查看全文”提示 */
+#cardHint {
+    font-size: 10px;
+    color: #8a8fa6;
+}
+
+/* ---------------- 详情页 ---------------- */
+#detailView, #detailScroll, #detailContent {
+    background-color: #1e1f29;
+    border: none;
+}
+#backBtn {
+    background-color: #2b2d3a;
+    color: #e6e6e6;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+}
+#backBtn:hover {
+    background-color: #3a3d4e;
+}
+#detailTitle {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+#detailTime {
+    font-size: 11px;
+    color: #9aa0b5;
+}
+#detailImage {
+    background-color: #11121a;
+    border-radius: 8px;
+}
+#detailBody {
+    font-size: 13px;
+    color: #d4d7e6;
+    line-height: 1.6;
+}
+
+/* 音频播放按钮 */
+#playBtn {
+    background-color: #ff5c7a;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+}
+#playBtn:hover {
+    background-color: #ff7790;
+}
+
+/* 音频进度条与时间 */
+#audioSlider::groove:horizontal {
+    height: 4px;
+    background: #3a3d4e;
+    border-radius: 2px;
+}
+#audioSlider::sub-page:horizontal {
+    background: #ff5c7a;
+    border-radius: 2px;
+}
+#audioSlider::handle:horizontal {
+    background: #ffffff;
+    width: 12px;
+    height: 12px;
+    margin: -4px 0;
+    border-radius: 6px;
+}
+#audioTime {
+    color: #9aa0b5;
+    font-size: 11px;
+}
+
+/* 占位提示 */
+#placeholder {
+    color: #888ba0;
+    font-size: 13px;
+    padding: 30px 10px;
+}
