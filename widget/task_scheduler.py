@@ -29,6 +29,11 @@ TASK_NAME = "NHK-Easy-News-Crawl"
 # 任务描述（ASCII，避免 PowerShell 中文编码坑）
 _TASK_DESC = "NHK Easy News daily crawl (headless, auto-renew consent cookie)"
 _EXEC_TIME_LIMIT_MIN = 15  # 单次执行时限（分钟），超时视为卡死由系统终止
+# 失败重试：唤醒后网络（尤其域控/WiFi）可能尚未就绪，S4U 登录会短时失败。
+# 让任务失败后每 _RESTART_INTERVAL_MIN 分钟重试，最多 _RESTART_COUNT 次，
+# 等网络恢复即可补上，无需改电源计划或存储密码。
+_RESTART_INTERVAL_MIN = 10  # 重试间隔（分钟）
+_RESTART_COUNT = 3          # 最多重试次数
 
 _TIME_RE = re.compile(r"^([01]\d|2[0-3]):[0-5]\d$")  # HH:MM 24 小时
 _PS = ["powershell", "-NoProfile", "-NonInteractive"]
@@ -94,6 +99,8 @@ def _build_register_script(times: list[str]) -> str:
         f"{triggers}; "
         "$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -WakeToRun "
         "-AllowStartIfOnBatteries -DontStopIfGoingOnBatteries "
+        f"-RestartInterval (New-TimeSpan -Minutes {_RESTART_INTERVAL_MIN}) "
+        f"-RestartCount {_RESTART_COUNT} "
         f"-ExecutionTimeLimit (New-TimeSpan -Minutes {_EXEC_TIME_LIMIT_MIN}); "
         "$principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME "
         "-LogonType S4U -RunLevel Limited; "

@@ -114,6 +114,9 @@ def test_task_register_script_contains_key_settings():
     # 幂等：先 Unregister 再 Register
     assert "Unregister-ScheduledTask" in script
     assert "Register-ScheduledTask" in script
+    # 失败重试：唤醒后网络未就绪导致 S4U 登录短时失败时，隔 10 分钟重试补上
+    assert "-RestartInterval" in script
+    assert "-RestartCount 3" in script
 
 
 def test_task_target_args_has_crawl_flag():

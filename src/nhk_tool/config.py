@@ -111,15 +111,35 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 # 数据目录：
 #   - 环境变量 NHK_DATA_ROOT 显式指定时优先用它（Tauri 壳启动 sidecar 时传 app\data，
 #     使壳与爬虫共用同一 data 根，且 data 落在软件根目录更直观）；
-#   - 否则打包态（PyInstaller，sys.frozen=True）用 exe 旁 data\；
+#   - 否则打包态（PyInstaller，sys.frozen=True）：exe 在 engine\ 子目录时用上级
+#     app\data（与壳/定时任务共用同一根），否则用 exe 旁 data\；
 #   - 源码运行用项目内 data/（不影响开发与测试）。
-_ENV_DATA_ROOT = os.environ.get("NHK_DATA_ROOT", "").strip()
-if _ENV_DATA_ROOT:
-    DATA_ROOT = Path(_ENV_DATA_ROOT)
-elif getattr(sys, "frozen", False):
-    DATA_ROOT = Path(sys.executable).resolve().parent / "data"
-else:
-    DATA_ROOT = PROJECT_ROOT / "data"
+def _resolve_data_root(env_root: str, frozen: bool, exe_path: Path,
+                       project_root: Path) -> Path:
+    """纯函数：按运行形态解析数据根目录（便于离线单测，无副作用）。
+
+    - env_root 非空 → 直接采用（壳启动 sidecar 时传 app\\data）。
+    - frozen 且 exe 位于名为 engine 的目录 → 上级目录的 data（打包布局
+      app\\engine\\nhk-crawler.exe，数据落 app\\data）。
+    - frozen 其他情况 → exe 旁 data。
+    - 非 frozen（源码）→ 项目内 data。
+    """
+    if env_root:
+        return Path(env_root)
+    if frozen:
+        exe_dir = exe_path.resolve().parent
+        if exe_dir.name.lower() == "engine":
+            return exe_dir.parent / "data"
+        return exe_dir / "data"
+    return project_root / "data"
+
+
+DATA_ROOT = _resolve_data_root(
+    os.environ.get("NHK_DATA_ROOT", "").strip(),
+    bool(getattr(sys, "frozen", False)),
+    Path(sys.executable),
+    PROJECT_ROOT,
+)
 
 SAVE_ROOT = DATA_ROOT / "news"       # 每日新闻：news/YYYY-MM-DD/
 LOG_ROOT = DATA_ROOT / "logs"        # 日志：logs/crawl-YYYY-MM-DD.log

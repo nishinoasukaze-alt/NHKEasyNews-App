@@ -1,6 +1,6 @@
 [package]
 name = "nhk-easy-news"
-version = "0.1.0"
+version = "0.1.1"
 description = "NHK Easy News desktop widget (Tauri shell)"
 authors = ["nhk-web-easy-tool"]
 license = ""

@@ -1,10 +1,38 @@
 """storage 存储层离线单测，使用临时目录避免污染真实 data/。"""
 import json
+from pathlib import Path
 
 import pytest
 
 from nhk_tool import config, storage
 from nhk_tool.parser import NewsItem
+
+
+# ---- 数据根解析（纯函数，覆盖打包 engine\ 布局 / 环境变量 / 源码态）----
+def test_data_root_env_wins():
+    got = config._resolve_data_root(
+        r"C:\shell\app\data", True, Path(r"C:\shell\app\engine\nhk-crawler.exe"),
+        Path(r"D:\proj"))
+    assert got == Path(r"C:\shell\app\data")
+
+
+def test_data_root_frozen_engine_uses_parent():
+    # 打包布局 app\engine\nhk-crawler.exe → 数据落 app\data（与壳/定时任务共用）
+    got = config._resolve_data_root(
+        "", True, Path(r"C:\shell\app\engine\nhk-crawler.exe"), Path(r"D:\proj"))
+    assert got == Path(r"C:\shell\app\data")
+
+
+def test_data_root_frozen_non_engine_uses_sibling():
+    got = config._resolve_data_root(
+        "", True, Path(r"C:\shell\app\NHKEasyNews.exe"), Path(r"D:\proj"))
+    assert got == Path(r"C:\shell\app\data")
+
+
+def test_data_root_source_uses_project():
+    got = config._resolve_data_root(
+        "", False, Path(r"C:\py\python.exe"), Path(r"D:\proj"))
+    assert got == Path(r"D:\proj\data")
 
 
 @pytest.fixture
